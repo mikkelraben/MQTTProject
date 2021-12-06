@@ -14,13 +14,13 @@ def on_connect(client,obj,flags,rc):
     print(f"Oprettede forbindelse {str(rc)}")
 
 def on_sub(client,userdata,mid):
-    print()
+    print(f"")
 
 def on_publish(client, userdata, mid):
-    print()
+    print(f"")
 
 def on_message(client, userdata, msg):
-    print()
+    print(f"{msg.topic}: {msg.payload}")
 
 
 client = mqtt.Client()
