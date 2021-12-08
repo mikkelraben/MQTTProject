@@ -28,6 +28,14 @@ def on_message(client, userdata, msg):
 
 
 #Functions
+def subscribe():
+    pass
+
+def unsubscribe():
+    pass
+
+def publish():
+    pass
 
 
 client = mqtt.Client()
