@@ -24,12 +24,14 @@ def on_publish(client, userdata, mid):
     print(f"Your message has been published to {str(mid)}")
 
 def on_message(client, userdata, msg):
-    print(f"{msg.topic}: {str(msg.payload)}")
+    msg.payload.decode()
+    text = f"{msg.topic}: {str(msg.payload)[2:-1]}"
+    print(text)
 
 
 #Functions
 def subscribe(topic):
-    client.subscribe(topic)
+    client.subscribe(f"M&M/{topic}",0)
     pass
 
 def unsubscribe(topic):
@@ -37,7 +39,7 @@ def unsubscribe(topic):
     pass
 
 def publish(topic, msg):
-    client.publish(topic, msg)
+    client.publish(f"M&M/{topic}", msg)
     pass
 
 def disconnet():
@@ -58,6 +60,8 @@ client.on_message = on_message
 
 client.connect(ip,port,60)
 
+subscribe("test")
+publish("test","Test upload")
 
 
 rc = 0
