@@ -7,7 +7,10 @@ port = 1883
 
 Username = "19xvz"
 Password = "msg007"
-Client_id = f"Mikkel&Markus"
+Client_id = f"Markus"
+
+subs_dict = {}
+pub_dict = {}
 
 #Event functions
 
@@ -15,23 +18,26 @@ def on_connect(client,obj,flags,rc):
     print(f"Oprettede forbindelse med koden: {str(rc)}")
 
 def on_subscribe(client,userdata,mid,qos):
-    print(f"You have subscribed to {str(mid)}")
+    print(f"You have subscribed to {subs_dict[mid]}")
 
 def on_unsubscribe(client,userdata,mid):
-    print(f"You have unsubscribed to {str(mid)}")
+    print(f"You have unsubscribed to {subs_dict(mid)}")
 
 def on_publish(client, userdata, mid):
     print(f"Your message has been published to {str(mid)}")
 
 def on_message(client, userdata, msg):
     msg.payload.decode()
-    text = f"{msg.topic}: {str(msg.payload)[2:-1]}"
+    text = f"{msg.topic}, {userdata}: {str(msg.payload)[2:-1]}"
     print(text)
 
 
 #Functions
 def subscribe(topic):
-    client.subscribe(f"M&M/{topic}",0)
+    r = client.subscribe(f"M&M/{topic}",0)
+    print(r)
+    subs_dict[r[1]] = topic
+    print(subs_dict)
     pass
 
 def unsubscribe(topic):
@@ -47,8 +53,9 @@ def disconnet():
 
 
 client = mqtt.Client()
-
 client.username_pw_set(Username,Password)
+
+client.user_data_set(Client_id)
 
 #Assign the events to our event functions
 client.on_connect = on_connect
